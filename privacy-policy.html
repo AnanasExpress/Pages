@@ -39,13 +39,16 @@
 </head>
 <body>
     <h1>Privacy Policy for Ties</h1>
-    <p class="last-updated">Last updated: September 27, 2026</p>
+    <p class="last-updated">Last updated: October 19, 2026</p>
 
     <div class="highlight">
         <strong>TL;DR:</strong> Ties is a privacy-first app. Your contacts and notes stay
-        on your device, encrypted, and are never sent to us. We run no servers, show no
-        ads and track nothing. The only data that leaves your device relates to a
-        purchase, and only if you buy Pro.
+        on your device, encrypted, and are never sent to us or anyone else. We run no
+        servers, show no ads and track nothing. Two kinds of technical data leave your
+        device: after the app starts, Ties checks your purchase status with RevenueCat,
+        and Google's on-device text recognition and AI libraries (ML Kit) send Google
+        diagnostic data such as device model, app version and error codes. Neither
+        contains any of your contacts, notes or text.
     </div>
 
     <h2>1. Overview</h2>
@@ -60,6 +63,14 @@
         <li><strong>Encrypted:</strong> Your database is encrypted with AES-256 using SQLCipher</li>
         <li><strong>No Cloud:</strong> We do not operate any servers or cloud storage</li>
         <li><strong>No Transmission:</strong> Your data never leaves your device unless you explicitly create a backup</li>
+        <li><strong>No Android cloud backup:</strong> Ties opts out of Android's cloud backup
+            and device-to-device transfer, so no copy of your database or its backups goes to
+            Google Drive or to a new phone automatically. To move to another phone, use your
+            own export file (section 5)</li>
+        <li><strong>What you enter:</strong> everything you type or attach in Ties, such as
+            notes, memories, photos, the names, birthdays and notes you record about your
+            contacts' children, and, optionally, your own first name, is your own local data.
+            It is stored and handled like every other note and is never collected by us</li>
     </ul>
 
     <h2>3. Data Collection</h2>
@@ -68,17 +79,33 @@
         and reminders are never transmitted to us or to anyone else.
     </p>
     <ul>
-        <li>❌ No analytics</li>
-        <li>❌ No crash reporting</li>
+        <li>❌ No analytics or crash reporting tools of our own</li>
         <li>❌ No usage tracking</li>
         <li>❌ No location data</li>
         <li>❌ No advertising, no ad networks, no profiling</li>
     </ul>
     <p>
-        The only exception is purchase processing: if you buy Pro, RevenueCat and Google
-        handle the transaction and we receive a confirmation of your purchase status.
-        See sections 6 and 7 for details.
+        Two exceptions, neither of which includes your contacts, notes or text:
     </p>
+    <ul>
+        <li><strong>Purchase status:</strong> shortly after the app starts, Ties asks
+            RevenueCat whether this installation has Pro, using an anonymous app user
+            id and your store receipts. Until it answers (or while you are offline),
+            Ties uses the status it last saw, stored on your device. If you buy or
+            restore Pro, RevenueCat and Google handle the transaction. See sections 6
+            and 7.</li>
+        <li><strong>Google diagnostics (ML Kit):</strong> reading text from screenshots
+            and, on supported phones, summaries with Gemini Nano use Google's ML Kit
+            libraries. ML Kit sends Google diagnostic and usage data: device information
+            (manufacturer, model, OS version, available ML hardware), app package name
+            and version, a per-installation or device identifier, performance metrics
+            (such as latency), API configuration (such as image format and resolution),
+            input and output size, feature version, event types and error codes. It does
+            not send the images or text being processed. Google encrypts this data in
+            transit and does not pass it to third parties
+            (<a href="https://developers.google.com/ml-kit/android-data-disclosure">ML Kit
+            data disclosure</a>). Ties cannot switch this off.</li>
+    </ul>
     <p>
         <strong>About the advertising ID:</strong> our payment provider RevenueCat
         includes Google's advertising ID library, which it may use to attribute a
@@ -92,10 +119,45 @@
     <p>The app requests these permissions for local functionality:</p>
     <ul>
         <li><strong>Contacts:</strong> To import contacts from your device (optional, only when you choose to import)</li>
-        <li><strong>Notifications:</strong> To send you reminders to stay in touch</li>
-        <li><strong>Storage:</strong> To save your encrypted database on your device</li>
+        <li><strong>Notifications:</strong> To send you reminders to stay in touch. The daily check for due reminders, follow-ups and birthdays runs on your device. Follow-up notifications offer "Done" and "Tomorrow" buttons; they change only data stored on your device</li>
+        <li><strong>Microphone:</strong> To dictate notes (optional, only while a voice note is open). Speech is turned into text on your device; no audio is saved or sent.</li>
     </ul>
+    <p>
+        Ties does <strong>not</strong> request storage, photo or media permissions. Photos
+        for memories are chosen with the system photo picker, and screenshots and backup
+        files are shared or imported through system pickers, so Ties only sees the files
+        you pick.
+    </p>
     <p><em>No permission is used to collect or transmit data.</em></p>
+
+    <h2>4a. Voice notes, screenshots and summaries</h2>
+    <p>
+        Ties can turn a spoken note or a screenshot you share with it into a
+        text note, and on supported devices summarize that text. All of this
+        happens <strong>on your device</strong>:
+    </p>
+    <ul>
+        <li><strong>Voice notes</strong> use your phone's on-device speech recognition. Audio is not recorded to a file and not sent anywhere.</li>
+        <li><strong>Screenshots</strong> you share with Ties are read on your device (Google ML Kit text recognition) and deleted when you close the import screen. Only the text you confirm is saved, as a note.</li>
+        <li><strong>Your first name</strong> (optional): if you enter it, it is used only for a greeting and to recognise your own messages in screenshots. It is stored locally and included in backups.</li>
+        <li><strong>Summaries</strong> run on your device with a language model. Where your phone has one built in (Gemini Nano on supported Android devices), Ties uses it; that model is downloaded and updated by your phone's system. Otherwise Ties uses a Gemma model that Ties itself provides (delivered with the app through Google Play) and runs on your phone. Either way, your text is not sent to Google or to us.</li>
+    </ul>
+    <p>
+        The ML Kit libraries used for screenshots and Gemini Nano send Google the
+        technical diagnostics described in section 3, never the screenshot or your text.
+    </p>
+    <h3>Photos in memories</h3>
+    <p>
+        You can attach photos to a memory. They are picked through the system photo
+        picker, reduced in size, stripped of all EXIF metadata (including location) and
+        stored only inside the encrypted database on your device. They are never uploaded.
+        Photos are included in backups and exports (which are not encrypted, see
+        section 5), which makes those files larger.
+    </p>
+    <p>
+        Ties keeps a count of how many free summaries you have used. This count
+        stays on your device and is not part of any backup.
+    </p>
 
     <h2>5. Backups</h2>
     <p>
@@ -104,14 +166,16 @@
     </p>
     <ul>
         <li>Automatic daily backups are stored in the app's private storage on your device</li>
-        <li>You can export your data manually as a JSON file</li>
+        <li>You can export your data manually as a JSON file. It includes your notes, memories with their photos (so it can be large), the children you recorded and your optional first name</li>
         <li>An exported file leaves the app only if <strong>you</strong> choose to share or
-            move it — for example to your own cloud storage. From that point the file is
+            move it (for example to your own cloud storage). From that point the file is
             governed by whichever service you send it to</li>
         <li><strong>Exported files are not encrypted.</strong> The database on your device
             is, but an export is plain JSON so that you can read and restore it without
             Ties. Store it somewhere you trust</li>
         <li>You can disable automatic backups at any time in Settings</li>
+        <li>Ties opts out of Android's cloud backup and device transfer (section 2), so
+            these backups are not copied to Google Drive</li>
     </ul>
 
     <h2>6. Payment Processing</h2>
@@ -131,9 +195,20 @@
             receipts and an anonymous app user id, plus the advertising identifier
             described in section 3. It receives none of your contacts, notes or
             interactions.</li>
+        <li><strong>Google ML Kit:</strong> on-device text recognition and access to
+            Gemini Nano. Sends Google the diagnostic and usage data listed in section 3;
+            never your screenshots, contacts, notes or text.</li>
         <li><strong>Apple App Store / Google Play Store:</strong> App distribution and payments</li>
     </ul>
-    <p><em>No advertising networks, no analytics, and no cross-app tracking are used.</em></p>
+    <p>
+        <strong>Google Play in-app review and sharing:</strong> at most once, after some
+        weeks of use, Ties may ask Google Play to show its in-app review dialog. This is
+        handled by the Play Store app on your device; Ties passes no data to it and does
+        not learn what you answer. "Rate Ties" in Settings opens the Ties page on Google
+        Play. "Share Ties" opens your system share sheet with a fixed text that contains
+        only a short sentence and the app link, nothing about you or your contacts.
+    </p>
+    <p><em>No advertising networks and no cross-app tracking are used, and Ties adds no analytics of its own.</em></p>
 
     <h2>8. Data Deletion</h2>
     <p>
@@ -152,6 +227,12 @@
     <h2>9. Children's Privacy</h2>
     <p>
         Ties is not directed at children under 13. We do not knowingly collect data from children.
+    </p>
+    <p>
+        You may record names, birthdays and a note about the children of your contacts.
+        This is your own local data: it is stored and handled like every other note,
+        stays on your device and is never collected by us. The age limit above concerns
+        people who use Ties themselves.
     </p>
 
     <h2>10. Changes to This Policy</h2>
@@ -174,3 +255,13 @@
     </p>
 </body>
 </html>
+<!--
+Changelog
+2026-10-18: added Android cloud-backup opt-out (allowBackup=false, data extraction rules);
+  ML Kit diagnostics, RevenueCat after start with local cache, advertising ID paragraph;
+  voice notes, screenshots, on-device summaries (4a); export is not encrypted.
+2026-10-19: added photos in memories (4a), children of contacts (9), optional first name (2, 4a),
+  in-app review prompt and Rate/Share (7), notification actions and daily check (4),
+  explicit "no storage/photo permission" (4), backup mentions (5); removed em dashes;
+  Last updated set to October 19, 2026.
+-->
